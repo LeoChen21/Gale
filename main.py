@@ -1,4 +1,5 @@
 import speech_recognition as sr
+from load import *
 
 def recognize_speech_from_mic():
     # Initialize the recognizer
@@ -13,16 +14,22 @@ def recognize_speech_from_mic():
 
         # Listen for the first phrase and extract it into audio data
         audio = recognizer.listen(source)
+        print("done")
 
     # Recognize (convert from speech to text)
     try:
         print("Recognizing speech...")
         text = recognizer.recognize_google(audio)
         print("You said: " + text)
+        return text
     except sr.UnknownValueError:
         print("Google Speech Recognition could not understand the audio")
     except sr.RequestError as e:
         print(f"Could not request results from Google Speech Recognition service; {e}")
+        
+    
 
 if __name__ == "__main__":
-    recognize_speech_from_mic()
+    text = recognize_speech_from_mic()
+    if(text):
+        getFunc(text)
