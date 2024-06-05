@@ -1,15 +1,18 @@
-def chat():
-    print("chat")
+import webbrowser
     
-function_map = {
-  "chat": chat,
+website_map = {
+  "chat": 'https://chatgpt.com/',
+  "gem": 'https://gemini.google.com/app'
 }
 
 def getFunc(input):
-    func = function_map.get(input)
+    words = input.split()
+    url = website_map.get(words[0])
     
-    if(func):
-        func()
+    if(url):
+        webbrowser.open(url)
     else:
-        print("Instruction " + input + " not understood")
-        
+        print("Instruction " + url + " not understood")
+    
+    if(len(words) > 1):
+        question = " ".join(words[1:])

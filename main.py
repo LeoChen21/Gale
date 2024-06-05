@@ -1,35 +1,36 @@
 import speech_recognition as sr
 from load import *
+import sys
 
-def recognize_speech_from_mic():
-    # Initialize the recognizer
-    recognizer = sr.Recognizer()
+# Define the keywords and corresponding functions
+keywords = {
+    "hello": lambda: print("Hello there!"),
+    "chat": lambda: getFunc("chat"),
+    "exit": lambda: sys.exit()
+}
 
-    # Use the default system microphone as the audio source
+# Initialize the recognizer
+recognizer = sr.Recognizer()
+
+def listen_for_speech():
     with sr.Microphone() as source:
-        print("Please wait. Calibrating microphone...")
-        # Listen for 5 seconds and create ambient noise energy level
-        recognizer.adjust_for_ambient_noise(source, duration=5)
-        print("Microphone calibrated. Listening...")
-
-        # Listen for the first phrase and extract it into audio data
+        print("Listening for speech...")
         audio = recognizer.listen(source)
-        print("done")
-
-    # Recognize (convert from speech to text)
-    try:
-        print("Recognizing speech...")
-        text = recognizer.recognize_google(audio)
-        print("You said: " + text)
-        return text
-    except sr.UnknownValueError:
-        print("Google Speech Recognition could not understand the audio")
-    except sr.RequestError as e:
-        print(f"Could not request results from Google Speech Recognition service; {e}")
+        try:
+            text = recognizer.recognize_google(audio)
+            print(f"Recognized speech: {text}")
+            for keyword in keywords:
+                if keyword in text.lower():
+                    print(f"Keyword detected: {keyword}")
+                    keywords[keyword]()  # Trigger the corresponding function
+        except sr.UnknownValueError:
+            print("Could not understand the audio")
+        except sr.RequestError as e:
+            print(f"Could not request results; {e}")
         
     
 
 if __name__ == "__main__":
-    text = recognize_speech_from_mic()
-    if(text):
-        getFunc(text)
+    while(True):
+        text = listen_for_speech()
+        
