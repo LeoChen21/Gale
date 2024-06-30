@@ -4,7 +4,7 @@ The purpose of this project is to create a way to voice interface with chatgpt o
 The goal is to optimize workflows without creating additional visible elements.
 
 Instructions:
-run git clone https://github.com/LeoChen21/Gale
+run git clone https://github.com/LeoChen21/Gale <br />
 pip install -r requirements.txt
 Next, add a file called secretkey.txt to the outermost folder with your personal OpenAI API key and no whitespaces.
 Check out this website for more instructions on the API key: https://platform.openai.com/docs/api-reference/authentication
